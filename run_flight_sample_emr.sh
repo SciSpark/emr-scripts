@@ -8,13 +8,11 @@
 # what to do if a step fails: TERMINATE_CLUSTER, CANCEL_AND_WAIT
 STEP_FAILURE_ACTION=TERMINATE_CLUSTER
 
-# termination protection on?
+# uncomment to termination protection on
 #TERMINATION_PROTECTED=--termination-protected
-TERMINATION_PROTECTED=
 
-# auto terminate on?
-AUTO_TERMINATE=--auto-terminate
-#AUTO_TERMINATE=
+# uncomment to auto terminate
+#AUTO_TERMINATE=--auto-terminate
 
 # subnet id
 SUBNET_ID=subnet-6713b04d
