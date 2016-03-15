@@ -12,7 +12,7 @@ STEP_FAILURE_ACTION=TERMINATE_CLUSTER
 #TERMINATION_PROTECTED=--termination-protected
 
 # uncomment to auto terminate
-#AUTO_TERMINATE=--auto-terminate
+AUTO_TERMINATE=--auto-terminate
 
 # subnet id
 SUBNET_ID=subnet-6713b04d
@@ -28,7 +28,7 @@ LOG_URI=s3n://aws-logs-052078438257-us-east-1/elasticmapreduce/
 # create cluster
 json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
   --applications Name=Hadoop Name=Hive Name=Spark Name=Zeppelin-Sandbox \
-  --bootstrap-actions '[{"Path":"s3://scispark-flightsample-output/emr-bootstrap-no-jplsec.sh",
+  --bootstrap-actions '[{"Path":"s3://scispark-bootstrap-scripts/emr-bootstrap-no-jplsec.sh",
                          "Name":"Custom action"}]' \
   --ec2-attributes "{\"KeyName\":\"scispark\",
                      \"InstanceProfile\":\"EMR_EC2_DefaultRole\",
