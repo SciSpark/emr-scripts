@@ -37,7 +37,7 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
                      \"EmrManagedMasterSecurityGroup\":\"$MASTER_SG_ID\"}" \
   --service-role EMR_DefaultRole \
   --enable-debugging \
-  --release-label emr-4.3.0 \
+  --release-label emr-4.4.0 \
   --log-uri $LOG_URI \
   --steps "[{\"Args\":[\"/usr/bin/hdfs\",\"dfs\",\"-get\",
                      \"s3://scispark-test-code/SciSparkTestExperiments.jar\",
@@ -56,10 +56,11 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
              \"Jar\":\"command-runner.jar\"
             },
             {\"Args\":[\"spark-submit\",
+                     \"--master\", \"yarn\",
                      \"--deploy-mode\", \"client\",
                      \"--class\", \"org.dia.algorithms.mcc.MainNetcdfDFSMCC\",
                      \"/mnt/SciSparkTestExperiments.jar\",
-                     \"local[4]\",
+                     \"yarn-client\",
                      \"2\",
                      \"20\",
                      \"ch4\",
@@ -69,7 +70,7 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
              \"Jar\":\"command-runner.jar\",
              \"Properties\":\"\",
              \"Name\":\"Spark application\"}]" \
-  --name 'My SciSpark cluster' \
+  --name 'My SciSpark cluster - SciSparkTestExperiments' \
   --instance-groups '[{"InstanceCount":1,
                        "BidPrice":".266",
                        "InstanceGroupType":"MASTER",

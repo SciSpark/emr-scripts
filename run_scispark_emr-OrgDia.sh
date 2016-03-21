@@ -37,7 +37,7 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
                      \"EmrManagedMasterSecurityGroup\":\"$MASTER_SG_ID\"}" \
   --service-role EMR_DefaultRole \
   --enable-debugging \
-  --release-label emr-4.3.0 \
+  --release-label emr-4.4.0 \
   --log-uri $LOG_URI \
   --steps "[{\"Args\":[\"/usr/bin/hdfs\",\"dfs\",\"-get\",
                      \"s3://scispark-test-code/OrgDia.jar\",
@@ -56,10 +56,11 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
              \"Jar\":\"command-runner.jar\"
             },
             {\"Args\":[\"spark-submit\",
+                     \"--master\", \"yarn\",
                      \"--deploy-mode\", \"client\",
                      \"--class\", \"org.dia.algorithms.mcc.MainNetcdfDFSMCC\",
                      \"/mnt/OrgDia.jar\",
-                     \"spark://127.0.0.1:7077\",
+                     \"yarn-client\",
                      \"2\",
                      \"20\",
                      \"ch4\",
