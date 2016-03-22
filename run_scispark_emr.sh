@@ -14,6 +14,9 @@ TERMINATION_PROTECTED=--termination-protected
 # uncomment to auto terminate
 #AUTO_TERMINATE=--auto-terminate
 
+# number of workers
+WORKERS=4
+
 # subnet id
 SUBNET_ID=subnet-6713b04d
 
@@ -71,16 +74,16 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
              \"Properties\":\"\",
              \"Name\":\"Spark application\"}]" \
   --name 'My SciSpark cluster - SciSparkTestExperiments' \
-  --instance-groups '[{"InstanceCount":1,
-                       "BidPrice":".266",
-                       "InstanceGroupType":"MASTER",
-                       "InstanceType":"m3.xlarge",
-                       "Name":"Master instance group - 1"},
-                      {"InstanceCount":2,
-                       "BidPrice":".266",
-                       "InstanceGroupType":"CORE",
-                       "InstanceType":"m3.xlarge",
-                       "Name":"Core instance group - 2"}]' \
+  --instance-groups "[{\"InstanceCount\":1,
+                       \"BidPrice\":\".266\",
+                       \"InstanceGroupType\":\"MASTER\",
+                       \"InstanceType\":\"m3.xlarge\",
+                       \"Name\":\"Master instance group - 1\"},
+                      {\"InstanceCount\":$WORKERS,
+                       \"BidPrice\":\".266\",
+                       \"InstanceGroupType\":\"CORE\",
+                       \"InstanceType\":\"m3.xlarge\",
+                       \"Name\":\"Core instance group - $WORKERS\"}]" \
   --region us-east-1
 )
 
