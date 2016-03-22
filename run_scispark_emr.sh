@@ -24,6 +24,10 @@ SUBNET_ID=subnet-6713b04d
 MASTER_SG_ID=sg-e571c99d
 SLAVE_SG_ID=sg-6d73cb15
 
+# other security groups
+JPL_SG_ID=sg-0c76ce74
+DEV_TEAM_SG_ID=sg-fb26a283
+
 # S3 URI for logs
 LOG_URI=s3n://aws-logs-052078438257-us-east-1/elasticmapreduce/
 
@@ -36,8 +40,10 @@ json=$(aws emr create-cluster $TERMINATION_PROTECTED $AUTO_TERMINATE \
   --ec2-attributes "{\"KeyName\":\"scispark\",
                      \"InstanceProfile\":\"EMR_EC2_DefaultRole\",
                      \"SubnetId\":\"$SUBNET_ID\",
+                     \"EmrManagedMasterSecurityGroup\":\"$MASTER_SG_ID\",
                      \"EmrManagedSlaveSecurityGroup\":\"$SLAVE_SG_ID\",
-                     \"EmrManagedMasterSecurityGroup\":\"$MASTER_SG_ID\"}" \
+                     \"AdditionalMasterSecurityGroups\":[\"$JPL_SG_ID\", \"$DEV_TEAM_SG_ID\"],
+                     \"AdditionalSlaveSecurityGroups\":[\"$JPL_SG_ID\", \"$DEV_TEAM_SG_ID\"]}" \
   --service-role EMR_DefaultRole \
   --enable-debugging \
   --release-label emr-4.4.0 \
